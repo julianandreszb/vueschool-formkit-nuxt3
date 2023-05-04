@@ -11,7 +11,7 @@
               inner-class="mycustom-inner">
           <template #label="context">
               {{ context.label }} ?
-              <span>{{ context.help }}</span>
+ 0             <span>{{ context.help }}</span>
           </template>
       </FormKit>
   </div>
