@@ -1,6 +1,6 @@
 <script setup>
 const formData = ref({
-    username: "jzapata",
+    username: "",
     password: "123321",
 });
 
@@ -12,8 +12,27 @@ async function handleSubmit(data) {
 
 <template>
     <div>
-        <!-- Submit form - Customize form via template slot -->
+        <!-- validations -->
         <FormKit
+                 type="form"
+                 submit-label="Login"
+                 :value="formData"
+                 @submit="handleSubmit"
+        >
+            <template #default="{state}">
+                <h1>Login</h1>
+                <FormKit
+                    validation="required|length:8,20"
+                    type="text" label="Username" name="username"/>
+                <FormKit type="password" label="Password" name="password"/>
+            </template>
+        </FormKit>
+
+
+
+
+        <!-- Submit form - Customize form via template slot -->
+        <FormKit v-if="false"
                 type="form"
                 submit-label="Login"
                 :value="formData"
