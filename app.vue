@@ -8,12 +8,50 @@ async function handleSubmit(data) {
     await wait(3000);
     console.log(data);
 }
+
+async function username_is_unique(node) {
+    const usernames = [
+        "jzapata",
+        "luanguyen",
+        "daniel",
+    ]
+    return !usernames.includes(node.value);
+}
 </script>
 
 <template>
     <div>
-        <!-- validations -->
+
+        <!-- custom validations -->
         <FormKit
+                type="form"
+                submit-label="Login"
+                :value="formData"
+                @submit="handleSubmit"
+        >
+            <template #default="{state}">
+                <h1>Login</h1>
+                <!-- We can create the validations on formkit.config.ts
+                and also include language specific messages -->
+                <FormKit
+                        validation="(500)username_is_unique"
+                        :validation-rules="{ username_is_unique }"
+                        :validation-messages="{
+                            username_is_unique({name, node}){
+                                return `${name}: ${node.value} username is already taken`
+                            }
+                        }"
+                        type="text"
+                        label="Username"
+                        name="username"
+                />
+
+                <FormKit type="password" label="Password" name="password"/>
+            </template>
+        </FormKit>
+
+        <!-- validations -->
+        <FormKit v-if="false"
                  type="form"
                  submit-label="Login"
                  :value="formData"
@@ -22,22 +60,19 @@ async function handleSubmit(data) {
             <template #default="{state}">
                 <h1>Login</h1>
                 <FormKit
-                    validation="required|length:8,20"
-                    type="text" label="Username" name="username"/>
+                        validation="required|length:8,20"
+                        type="text" label="Username" name="username"/>
                 <FormKit type="password" label="Password" name="password"/>
             </template>
         </FormKit>
 
-
-
-
         <!-- Submit form - Customize form via template slot -->
         <FormKit v-if="false"
-                type="form"
-                submit-label="Login"
-                :value="formData"
-                :actions="false"
-                @submit="handleSubmit"
+                 type="form"
+                 submit-label="Login"
+                 :value="formData"
+                 :actions="false"
+                 @submit="handleSubmit"
         >
             <template #default="{state}">
                 <h1>Login</h1>
