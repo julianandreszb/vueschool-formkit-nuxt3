@@ -1,6 +1,8 @@
 <script setup>
+import {FormKitSchema} from "@formkit/vue";
+
 const formData = ref({
-    username: "",
+    username: "jzapata",
     password: "123321",
 });
 
@@ -22,8 +24,45 @@ async function username_is_unique(node) {
 <template>
     <div>
 
+        <!-- Schemas-->
+        <FormKitSchema
+            :data="{
+                formData,
+                attrs: {
+                  onSubmit: handleSubmit,
+                },
+            }"
+            :schema="[
+            {
+              $formkit: 'form',
+              submitLabel: 'Login',
+              value: '$formData',
+              bind: '$attrs',
+              children: [
+                    {
+                      $el: 'h1',
+                      children: 'Login',
+                    },
+                    {
+                      $formkit: 'text',
+                      validation: '(500)username_is_unique',
+                      label: 'Username',
+                      name: 'username',
+                    },
+                    {
+                      $formkit: 'password',
+                      label: 'Password',
+                      name: 'password',
+                      if: '$value.username',
+                    },
+                ],
+            },
+            ]"
+        />
+
         <!-- custom validations -->
         <FormKit
+                v-if="false"
                 type="form"
                 submit-label="Login"
                 :value="formData"
